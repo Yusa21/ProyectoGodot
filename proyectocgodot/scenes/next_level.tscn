@@ -1,0 +1,72 @@
+[gd_scene load_steps=11 format=3 uid="uid://bhi3jc8xnlfhk"]
+
+[ext_resource type="Script" path="res://scripts/NextLevel.cs" id="1_b1fum"]
+[ext_resource type="Texture2D" uid="uid://ccov2twocrxqd" path="res://assets/sprites/Dimensional_Portal.png" id="2_fs0ye"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i1fu2"]
+atlas = ExtResource("2_fs0ye")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l4xsh"]
+atlas = ExtResource("2_fs0ye")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_glno0"]
+atlas = ExtResource("2_fs0ye")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m45ic"]
+atlas = ExtResource("2_fs0ye")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7w4mg"]
+atlas = ExtResource("2_fs0ye")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oabje"]
+atlas = ExtResource("2_fs0ye")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0vveb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i1fu2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l4xsh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_glno0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m45ic")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7w4mg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oabje")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_e2q4n"]
+radius = 9.0
+height = 32.0
+
+[node name="NextLevel" type="Area2D"]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_b1fum")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_0vveb")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_e2q4n")
+
+[connection signal="body_entered" from="." to="." method="OnPlayerEntered"]

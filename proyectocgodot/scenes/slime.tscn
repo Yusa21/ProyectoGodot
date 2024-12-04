@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=3 uid="uid://cj1v6cq7dr5qv"]
+
+[ext_resource type="Script" path="res://scripts/Slime.cs" id="1_s0crc"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_q61as"]
+animations = []
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l66ip"]
+size = Vector2(8, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wfty0"]
+size = Vector2(15, 14)
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_8cy73"]
+
+[node name="Slime" type="CharacterBody2D"]
+position = Vector2(0, -12)
+script = ExtResource("1_s0crc")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(1, 0)
+sprite_frames = SubResource("SpriteFrames_q61as")
+animation = &""
+
+[node name="RayCastRight" type="RayCast2D" parent="."]
+position = Vector2(0, 6)
+target_position = Vector2(8, 0)
+collide_with_areas = true
+
+[node name="RayCastLeft" type="RayCast2D" parent="."]
+position = Vector2(0, 6)
+target_position = Vector2(-8, 0)
+collide_with_areas = true
+
+[node name="HitBox" type="CollisionShape2D" parent="."]
+position = Vector2(0, 6)
+shape = SubResource("RectangleShape2D_l66ip")
+
+[node name="HurtBox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2(0.5, 5)
+shape = SubResource("RectangleShape2D_wfty0")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_8cy73")
+anim_player = NodePath("../AnimationPlayer")
+
+[connection signal="body_entered" from="HurtBox" to="." method="OnBulletEntered"]
