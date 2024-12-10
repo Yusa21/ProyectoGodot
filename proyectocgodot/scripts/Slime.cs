@@ -7,7 +7,7 @@ public partial class Slime : Node2D
 	private int direction = 1;
 	private RayCast2D rayCastRight;
 	private RayCast2D rayCastLeft;
-
+	private CollisionShape2D hitBox;
 	private AnimatedSprite2D sprite;
 
 	// Called when the node enters the scene tree for the first time.
@@ -16,6 +16,7 @@ public partial class Slime : Node2D
 		rayCastRight = GetNode<RayCast2D>("RayCastRight");
 		rayCastLeft = GetNode<RayCast2D>("RayCastLeft");
 		sprite = GetNode<AnimatedSprite2D>("Sprite");
+		hitBox = GetNode<CollisionShape2D>("PhysicsCollider");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -37,26 +38,38 @@ public partial class Slime : Node2D
 		Position += new Vector2((float)(direction * speed * delta), 0);
 	}
 
-	private void OnBulletEntered(Node body)
+	private void OnBulletEntered(Node area2D)
 	{
-		if (body is Proyectil)
+		GD.Print("Detectado colision" + area2D.GetGroups());
+		if (area2D.IsInGroup("Bullet"))
 		{
 			Die();
 		}
 	}
 
 	//Ejecuta la funcion que mata al slime y lo borra de la escena
-	private void Die()
+	private async void Die()
 	{
+		//Quita la hitbox para que no pueda hacer daño una vez esta muriendo
+		hitBox.QueueFree();
+		//Para que no pueda recibir otra bala
+		GD.Print("Die entered");
+		sprite.Play("dying");
+		//Para que deje de moverse cuando muere
+		speed = 0;
+		
 		sprite.Play("diying");
-		sprite.Connect("animation_finished", this, nameof(OnAnimationFinished));
-	}
+		sprite.AnimationFinished += OnAnimationFinished;
+		
 
-	private void OnAnimationFinished(string animName)
+	}
+	private void OnAnimationFinished()
 	{
-		if (animName == "dying")
+		if (sprite.Animation == "dying")
 		{
 			QueueFree();
 		}
 	}
+
+
 }

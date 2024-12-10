@@ -27,6 +27,8 @@ public partial class KillZone : Area2D
     public void _OnTimerOut()
     {
         Engine.TimeScale = 1f;
+        //Resetea las monedas si muere
+        GlobalScript.coins = 0;
         GetTree().ReloadCurrentScene();
     } 
 	

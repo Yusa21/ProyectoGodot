@@ -11,6 +11,7 @@ public partial class Player : CharacterBody2D
 	public float BulletSpeed = 250.0f;
 
 	public bool CanShootBullet = true;
+	private bool isDead = false;
 	
 	
 	private AnimatedSprite2D animation;
@@ -19,13 +20,19 @@ public partial class Player : CharacterBody2D
 	public override void _Ready()
 	{
 		base._Ready();
-		animation = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		animation = GetNode<AnimatedSprite2D>("Sprite");
 		bullet = GD.Load<PackedScene>("res://scenes/proyectil.tscn");
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
 		Vector2 velocity = Velocity;
+		
+		// Si esta muerto no funciona
+		if (isDead)
+		{
+			return;
+		}
 
 		// Add the gravity.
 		if (!IsOnFloor())
@@ -37,6 +44,7 @@ public partial class Player : CharacterBody2D
 		if (Input.IsActionJustPressed("ui_up") && IsOnFloor())
 		{
 			velocity.Y = JumpVelocity;
+			animation.Play("jump");
 		}
 		
 		//Handle Fire
@@ -83,8 +91,39 @@ public partial class Player : CharacterBody2D
 	}
 	public void OnBulletCooldownTimeOut()
 	{
-		//When the cooldown finishes it can shoot again 
+		//Cuando acabe el cooldown puede volver a disparar
 		CanShootBullet = true;
 
+	}
+
+	//Comprueba si el cuerpo de un enemigo ha entrado en el area
+	private void OnEnemyEntered(Node body)
+	{
+		GD.Print("Entered" + body.Name);
+		if (body.IsInGroup("Enemy"))
+		{
+			Die();
+		}
+		
+	}
+
+	//Realiza lo necesario para que el personaje muera
+	private void Die()
+	{
+		GD.Print("Enters Die");
+		isDead = true;
+		//Pierdes todad las monedas
+		GlobalScript.coins = 0;
+		animation.Play("dying");
+		animation.AnimationFinished += OnAnimationFinished;
+		
+	}
+	
+	private void OnAnimationFinished()
+	{
+		if (animation.Animation == "dying")
+		{
+			GetTree().ReloadCurrentScene();
+		}
 	}
 }

@@ -1,7 +1,31 @@
-[gd_scene load_steps=25 format=3 uid="uid://dn0gd25pw7gty"]
+[gd_scene load_steps=36 format=3 uid="uid://dn0gd25pw7gty"]
 
 [ext_resource type="Script" path="res://scripts/Player.cs" id="1_7gt66"]
 [ext_resource type="Texture2D" uid="uid://sm5upvv0yqqy" path="res://assets/sprites/knight.png" id="1_pf042"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gwer8"]
+atlas = ExtResource("1_pf042")
+region = Rect2(64, 192, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_inhcn"]
+atlas = ExtResource("1_pf042")
+region = Rect2(96, 192, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cvj6k"]
+atlas = ExtResource("1_pf042")
+region = Rect2(0, 224, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5p27c"]
+atlas = ExtResource("1_pf042")
+region = Rect2(32, 224, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2wuep"]
+atlas = ExtResource("1_pf042")
+region = Rect2(64, 224, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oaieh"]
+atlas = ExtResource("1_pf042")
+region = Rect2(96, 224, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5bm71"]
 atlas = ExtResource("1_pf042")
@@ -18,6 +42,22 @@ region = Rect2(64, 0, 32, 32)
 [sub_resource type="AtlasTexture" id="AtlasTexture_kn2sl"]
 atlas = ExtResource("1_pf042")
 region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jnkhj"]
+atlas = ExtResource("1_pf042")
+region = Rect2(0, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wif1n"]
+atlas = ExtResource("1_pf042")
+region = Rect2(0, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_826cq"]
+atlas = ExtResource("1_pf042")
+region = Rect2(128, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7qjfg"]
+atlas = ExtResource("1_pf042")
+region = Rect2(128, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vocpi"]
 atlas = ExtResource("1_pf042")
@@ -87,6 +127,29 @@ region = Rect2(224, 96, 32, 32)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_gwer8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_inhcn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cvj6k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5p27c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2wuep")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oaieh")
+}],
+"loop": false,
+"name": &"dying",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_5bm71")
 }, {
 "duration": 1.0,
@@ -101,6 +164,23 @@ animations = [{
 "loop": true,
 "name": &"idle",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jnkhj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wif1n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_826cq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7qjfg")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -159,18 +239,20 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_je80q"]
 radius = 5.09902
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ygs51"]
+size = Vector2(13, 13)
+
 [node name="Player" type="CharacterBody2D"]
 z_index = 5
 collision_layer = 2
-collision_mask = 3
 script = ExtResource("1_7gt66")
 BulletOffset = Vector2(4, -6)
 BulletSpeed = 50.0
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -12)
 sprite_frames = SubResource("SpriteFrames_nyt46")
-animation = &"walking"
+animation = &"dying"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -6)
@@ -179,4 +261,12 @@ shape = SubResource("CircleShape2D_je80q")
 [node name="BulletCoolDown" type="Timer" parent="."]
 one_shot = true
 
+[node name="HurtBox" type="Area2D" parent="."]
+collision_layer = 2
+
+[node name="HurtBoxCollider" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2(-0.5, -6.5)
+shape = SubResource("RectangleShape2D_ygs51")
+
 [connection signal="timeout" from="BulletCoolDown" to="." method="OnBulletCooldownTimeOut"]
+[connection signal="body_entered" from="HurtBox" to="." method="OnEnemyEntered"]

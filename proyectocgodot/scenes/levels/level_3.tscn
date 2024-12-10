@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=4 uid="uid://cnsbdgaaesde5"]
+[gd_scene load_steps=10 format=4 uid="uid://cnsbdgaaesde5"]
 
 [ext_resource type="Texture2D" uid="uid://dhj0h34fl5uk7" path="res://assets/sprites/world_tileset.png" id="1_srfe7"]
+[ext_resource type="Texture2D" uid="uid://bwv7j11jutk8f" path="res://assets/sprites/skybackground.jpg" id="1_tbnuj"]
 [ext_resource type="PackedScene" uid="uid://dn0gd25pw7gty" path="res://scenes/player.tscn" id="2_k053f"]
 [ext_resource type="PackedScene" uid="uid://b157pryqm8gjg" path="res://scenes/kill_zone.tscn" id="3_kn8n5"]
 [ext_resource type="PackedScene" uid="uid://d1tpaliatk4td" path="res://scenes/coin.tscn" id="4_1dkpg"]
@@ -177,6 +178,14 @@ distance = 40.0
 
 [node name="level_3" type="Node2D"]
 
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = -471.0
+offset_top = -365.0
+offset_right = 441.0
+offset_bottom = 80.0
+texture = ExtResource("1_tbnuj")
+expand_mode = 1
+
 [node name="TileMap" type="TileMapLayer" parent="."]
 tile_map_data = PackedByteArray("AAD3/wAAAQAHAAAAAAD4/wAAAQAHAAAAAAD5/wAAAQAGAAIAAAD6/wAAAQAGAAIAAAD7/wAAAQAGAAIAAAD9/wAAAQAGAAIAAAD8/wAAAQAGAAIAAAD+/wAAAQAGAAIAAAD//wAAAQAGAAIAAAAAAAAAAQAHAAAAAAD/////AQAGAAIAAAD///7/AQAGAAIAAAD///3/AQAGAAIAAAD///z/AQAGAAIAAAD///v/AQAGAAIAAAD///r/AQAGAAIAAAD5////AQAGAAIAAAD5//7/AQAGAAIAAAD5//z/AQAGAAIAAAABAAAAAQAHAAAAAAD5//3/AQAGAAIAAAD5//v/AQAGAAIAAAD5//r/AQAGAAIAAAD7////AQAGAAIAAAD9//7/AQAGAAIAAAD+//3/AQAGAAIAAAD7//z/AQAGAAIAAAD6//r/AQAGAAIAAAD8//n/AQAGAAIAAAD5//n/AQAGAAIAAAD5//j/AQAGAAIAAAD///n/AQAGAAIAAAD///j/AQAGAAIAAAD5//f/AQAGAAIAAAD+//j/AQAGAAIAAAD5//b/AQAGAAIAAAD5//X/AQAHAAAAAAD6//X/AQAHAAAAAAD8//X/AQAHAAAAAAD7//X/AQAHAAAAAAD9//X/AQAHAAAAAAD///X/AQAHAAAAAAD+//X/AQAHAAAAAAACAAAAAQAGAAIAAAACAP//AQAGAAIAAAACAP7/AQAGAAIAAAACAP3/AQAGAAIAAAACAPz/AQAGAAIAAAACAPv/AQAGAAIAAAACAPr/AQAGAAIAAAACAPn/AQAGAAIAAAACAPj/AQAGAAIAAAACAPf/AQAGAAIAAAACAPb/AQAGAAIAAAAAAPX/AQAHAAAAAAABAPX/AQAHAAAAAAACAPX/AQAHAAAAAAA=")
 tile_set = SubResource("TileSet_bow75")
@@ -213,4 +222,4 @@ position = Vector2(17, -118)
 [node name="NextLevel" parent="." instance=ExtResource("5_yoeoa")]
 position = Vector2(18, -12)
 rotation = 1.5708
-Objective = "res://scenes/levels/level_1.tscn"
+Objective = "res://scenes/ending_menu.tscn"

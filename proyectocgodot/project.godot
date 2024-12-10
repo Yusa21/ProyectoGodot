@@ -11,13 +11,22 @@ config_version=5
 [application]
 
 config/name="ProyectoCGodot"
-run/main_scene="res://scenes/levels/level_1.tscn"
+run/main_scene="res://scenes/start_menu.tscn"
 config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+GlobalScript="*res://scripts/GlobalScript.cs"
 
 [dotnet]
 
 project/assembly_name="ProyectoCGodot"
+
+[global_group]
+
+Bullet=""
+Enemy="Grupo para que los enemigos hagan daño"
 
 [input]
 

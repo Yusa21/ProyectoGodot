@@ -1,5 +1,6 @@
-[gd_scene load_steps=15 format=4 uid="uid://dr0n8jwij4slf"]
+[gd_scene load_steps=16 format=4 uid="uid://dr0n8jwij4slf"]
 
+[ext_resource type="Texture2D" uid="uid://bwv7j11jutk8f" path="res://assets/sprites/skybackground.jpg" id="1_s8kp3"]
 [ext_resource type="Texture2D" uid="uid://dhj0h34fl5uk7" path="res://assets/sprites/world_tileset.png" id="1_vtmft"]
 [ext_resource type="PackedScene" uid="uid://dn0gd25pw7gty" path="res://scenes/player.tscn" id="2_0rt4y"]
 [ext_resource type="PackedScene" uid="uid://b157pryqm8gjg" path="res://scenes/kill_zone.tscn" id="3_l834k"]
@@ -234,8 +235,16 @@ _data = {
 
 [node name="Node2D" type="Node2D"]
 
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = -332.0
+offset_top = -242.0
+offset_right = 434.0
+offset_bottom = 116.0
+texture = ExtResource("1_s8kp3")
+expand_mode = 1
+
 [node name="TileMap" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray("AAD+/wAAAQAAAAAAAAD//wAAAQAAAAAAAAAAAAAAAQAAAAAAAAABAAAAAQAAAAAAAAACAAAAAQAAAAAAAAD9/wAAAQAAAAAAAAAEAAAAAQAAAAAAAAADAAAAAQAAAAAAAAABAP//AQAAAAEAAAABAP7/AQAAAAUAAAABAP3/AQAAAAMAAAAFAAAAAQAAAAEAAAAFAP//AQAAAAEAAAAFAP7/AQAAAAEAAAAFAP3/AQAAAAAAAAA=")
+tile_map_data = PackedByteArray("AAD+/wAAAQAAAAAAAAD//wAAAQAAAAAAAAAAAAAAAQAAAAAAAAABAAAAAQAAAAEAAAACAAAAAQAAAAAAAAD9/wAAAQAAAAAAAAAEAAAAAQAAAAAAAAADAAAAAQAAAAAAAAABAP7/AQAAAAUAAAABAP3/AQAAAAMAAAAFAAAAAQAAAAEAAAAFAP//AQAAAAEAAAAFAP7/AQAAAAEAAAAFAP3/AQAAAAAAAAABAP//AQAAAAAAAAA=")
 tile_set = SubResource("TileSet_kdxp8")
 
 [node name="Player" parent="." instance=ExtResource("2_0rt4y")]

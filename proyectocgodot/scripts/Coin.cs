@@ -17,7 +17,8 @@ public partial class Coin : Area2D
 	
 	public void _OnBodyEntered(Node body)
 	{
-		GD.Print("+1 moneda"); 
+		GD.Print("+1 moneda");
+		GlobalScript.coins += 1;
 		QueueFree();
 		
 	}

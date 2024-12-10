@@ -3,28 +3,28 @@
 [ext_resource type="Script" path="res://scripts/Proyectil.cs" id="1_0ggui"]
 [ext_resource type="Texture2D" uid="uid://b0uju6w6v5jy2" path="res://assets/sprites/fruit.png" id="1_3s0qh"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_k1ewy"]
-radius = 5.5
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_2jopw"]
 atlas = ExtResource("1_3s0qh")
 region = Rect2(0, 51, 15, 13)
 
-[node name="Proyectil" type="Area2D"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_k1ewy"]
+radius = 5.5
+
+[node name="Proyectil" type="Area2D" groups=["Bullet"]]
 z_index = 6
 collision_layer = 4
 collision_mask = 4
 script = ExtResource("1_0ggui")
 Speed = 10.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0.5, 0)
-shape = SubResource("CircleShape2D_k1ewy")
-
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0.25, 0)
 scale = Vector2(1, 1.034)
 texture = SubResource("AtlasTexture_2jopw")
+
+[node name="HitBox" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 0)
+shape = SubResource("CircleShape2D_k1ewy")
 
 [node name="Despawn" type="Timer" parent="."]
 wait_time = 3.0
