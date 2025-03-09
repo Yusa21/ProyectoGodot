@@ -26,10 +26,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -191.0
-offset_top = -169.0
-offset_right = 177.0
-offset_bottom = -8.0
+offset_left = 149.0
+offset_top = -163.0
+offset_right = 517.0
+offset_bottom = -2.0
 grow_horizontal = 2
 grow_vertical = 0
 
@@ -48,10 +48,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -162.0
-offset_top = -43.5
-offset_right = 162.0
-offset_bottom = 43.5
+offset_left = 149.0
+offset_top = -108.0
+offset_right = 517.0
+offset_bottom = -21.0
 grow_horizontal = 2
 grow_vertical = 2
 fit_content = true
@@ -71,5 +71,29 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_n7tav")
 
+[node name="Nombre" type="TextEdit" parent="."]
+layout_mode = 0
+offset_left = 725.0
+offset_top = 336.0
+offset_right = 1092.0
+offset_bottom = 381.0
+placeholder_text = "Introduce tu nombre"
+
+[node name="PublishScoreButton" type="Button" parent="."]
+offset_left = 724.0
+offset_top = 389.0
+offset_right = 1092.0
+offset_bottom = 440.0
+text = "Publica tu puntuacion"
+
+[node name="TopScores" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 205.0
+offset_top = 242.0
+offset_right = 637.0
+offset_bottom = 444.0
+rotation = 0.000674024
+
 [connection signal="pressed" from="VBoxContainer/StartButton" to="." method="OnStartButtonPressed"]
 [connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="OnQuitButtonPressed"]
+[connection signal="pressed" from="PublishScoreButton" to="." method="OnPublishScoreButtonPressed"]

@@ -11,7 +11,6 @@ public partial class NextLevel : Area2D
 			GetTree().ChangeSceneToFile(Objective);
 		}
 
-	
 	}
 	
 }
