@@ -13,6 +13,9 @@ public partial class EndingMenu : Control
     private TextEdit Nombre;
     private HttpRequest GetTopScoresRequest;
     private HttpRequest PublishScoreRequest;
+    private int retryCount = 0;
+    private const int MAX_RETRIES = 5;
+    private const float RETRY_DELAY = 3.0f;
 
     public override void _Ready()
     {
@@ -45,24 +48,39 @@ public partial class EndingMenu : Control
 
     private void FetchTopScores()
     {
-        string[] headers = new string[] { "Content-Type: application/json" };
-        Error error = GetTopScoresRequest.Request("https://localhost:44362/api/Scores/top", headers);
+        TopScores.Text = retryCount > 0 
+            ? $"Cargando puntuaciones (intento {retryCount})..."
+            : "Cargando puntuaciones...";
         
+        string[] headers = new string[] { "Content-Type: application/json" };
+
+        GetTopScoresRequest.Timeout = 15;
+    
+        Error error = GetTopScoresRequest.Request("https://apipsp-30tv.onrender.com/api/Scores/top", headers);
+    
         if (error != Error.Ok)
         {
             GD.Print("An error occurred while fetching top scores: " + error.ToString());
-            TopScores.Text = "Error al cargar las puntuaciones más altas.";
+            HandleRetryOrFail("Error al cargar las puntuaciones más altas.");
         }
     }
+
 
     private void OnTopScoresRequestCompleted(long result, long responseCode, string[] headers, byte[] body)
     {
         if (responseCode != 200)
         {
             GD.Print("Failed to get top scores. Response code: " + responseCode);
-            TopScores.Text = "Error al cargar las puntuaciones más altas.";
+        
+            string errorMessage = responseCode == 502 
+                ? "El servidor se está iniciando. Por favor, espera un momento..."
+                : "Error al cargar las puntuaciones más altas.";
+            
+            HandleRetryOrFail(errorMessage);
             return;
         }
+        
+        retryCount = 0;
 
         string response = Encoding.UTF8.GetString(body);
         GD.Print("Response: " + response);
@@ -76,11 +94,6 @@ public partial class EndingMenu : Control
         
             var scores = JsonSerializer.Deserialize<List<ScoreData>>(response, options);
             
-            foreach (var score in scores)
-            {
-                GD.Print($"Parsed Score: Id={score.Id}, Player={score.Player}, Points={score.Points}");
-            }
-            
             string scoresText = "[center][b]MEJORES PUNTUACIONES[/b][/center]\n\n";
             int rank = 1;
         
@@ -90,15 +103,32 @@ public partial class EndingMenu : Control
                 rank++;
             }
         
-            GD.Print("Final formatted text: " + scoresText);
             TopScores.BbcodeEnabled = true;
             TopScores.Text = scoresText;
         }
         catch (Exception ex)
         {
             GD.Print("Error parsing top scores: " + ex.Message);
-            GD.Print("Stack trace: " + ex.StackTrace);
             TopScores.Text = "Error al procesar las puntuaciones.";
+        }
+    }
+    
+    private void HandleRetryOrFail(string errorMessage)
+    {
+        if (retryCount < MAX_RETRIES)
+        {
+            retryCount++;
+            GD.Print($"Retrying... Attempt {retryCount} of {MAX_RETRIES}");
+        
+            var timer = GetTree().CreateTimer(RETRY_DELAY);
+            timer.Timeout += () => FetchTopScores();
+            
+            TopScores.Text = $"{errorMessage}\nReintentando ({retryCount}/{MAX_RETRIES})...";
+        }
+        else
+        {
+            retryCount = 0;
+            TopScores.Text = "No se pudieron cargar las puntuaciones después de varios intentos.\nPor favor, inténtalo más tarde.";
         }
     }
 
@@ -108,7 +138,6 @@ public partial class EndingMenu : Control
         
         if (string.IsNullOrEmpty(playerName))
         {
-            // Show error if no name is entered
             OS.Alert("Por favor, ingresa tu nombre antes de publicar tu puntuación.", "Nombre Requerido");
             return;
         }
@@ -124,7 +153,7 @@ public partial class EndingMenu : Control
         string[] headers = new string[] { "Content-Type: application/json" };
         
         Error error = PublishScoreRequest.Request(
-            "https://localhost:44362/api/Scores", 
+            "https://apipsp-30tv.onrender.com/api/Scores", 
             headers, 
             HttpClient.Method.Post, 
             jsonData

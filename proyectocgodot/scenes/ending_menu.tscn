@@ -80,6 +80,7 @@ offset_bottom = 381.0
 placeholder_text = "Introduce tu nombre"
 
 [node name="PublishScoreButton" type="Button" parent="."]
+layout_mode = 0
 offset_left = 724.0
 offset_top = 389.0
 offset_right = 1092.0
